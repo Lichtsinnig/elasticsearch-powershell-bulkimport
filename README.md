@@ -24,12 +24,12 @@ Intel Xeon CPU E3-1535M v5 @ 2.90GHz
 
 32 GB Ram
 
-# Step 1: Export data in json format
+### Step 1: Export data in json format
 To generate, we will run the bcp command at below from command prompt which is fast way to export for big-data
 
 `bcp "SELECT (SELECT Name, Surname FOR JSON PATH, WITHOUT_ARRAY_WRAPPER, INCLUDE_NULL_VALUES) FROM [Database].[dbo].[Table];" queryout C:\export.json -c -S ".\SQLExpress" -d master -U "sa" -P "XXXX"' -e c:\error_out.log -o c:\output_out.log -T`
 
-# Step 2: Disable some indexing settings to improve bulk index performance
+### Step 2: Disable some indexing settings to improve bulk index performance
 Run the following api call on Kibana Devtools console (or any http client) to improve the bulk index api performance
 
 Reference: https://www.elastic.co/guide/en/elasticsearch/reference/master/tune-for-indexing-speed.html
@@ -48,7 +48,7 @@ PUT /_settings {
 }
 ```
 
-# Step 3: Import generated authlogs json file into Elasticsearch
+### Step 3: Import generated authlogs json file into Elasticsearch
 To import generated authlogs json file, we will use the following powerscript module file BulkElasticSearchImport.psm1
 
 - Import the module with the following command line: Import-Module .\BulkElasticSearchImport.psm1
@@ -57,7 +57,7 @@ To import generated authlogs json file, we will use the following powerscript mo
 
 Usage: ` Bulk-Import ".\export.json" 10000 "http://localhost:9200/indexname/doc/" "username" "password" `
 
-# Step 4: Revert back indexing settings to their default values
+### Step 4: Revert back indexing settings to their default values
 Run the following api call on Kibana Devtools console or any http client
 
 ```
@@ -74,7 +74,7 @@ PUT /_settings {
 }
 ```
 
-# Step 5:  Explicitly refresh the index to make all operations performed for search
+### Step 5:  Explicitly refresh the index to make all operations performed for search
 ```
 POST /indexname/_refresh
 ```
